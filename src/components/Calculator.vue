@@ -34,14 +34,45 @@ export default {
  return{
    calculatorValue:'',
    calculatorElements: ['C','*','/','-',7,8,9,'+',4,5,6,'%',1,2,3,'=',0,'.'],
+   operator: null,
+   previousCalculatorValue: '',
  }
   },
 
    methods:{
      action(n){
+
+      // Append value
        if(!isNaN(n) || n === '.'){
          this.calculatorValue += n + '';
        }
+
+       //clear value
+       if(n === 'C'){
+         this.calculatorValue = '';
+       }
+       
+       //Percentage
+       if(n === '%'){
+         this.calculatorValue = this.calculatorValue / 100 + '';
+       }
+
+      if(['/','*','-','+'].includes(n)){
+        this.operator = n;
+        this.previousCalculatorValue = this.calculatorValue;
+        this.calculatorValue = '';
+      }
+
+      if(n === '='){
+        this.calculatorValue = eval(
+          this.previousCalculatorValue + this.operator + this.calculatorValue
+        );
+
+        this.previousCalculatorValue = '';
+        this.operator = null;
+      }
+
+
      }
    }
 
@@ -50,13 +81,13 @@ export default {
 
 <style scoped>
 .bg-vue-dark{
-  background: #31475e;
+  background: #a12497;
 }
 .hover-class:hover{
   cursor: pointer;
-  background: #3D5875;
+  background: #577ea8;
 }
 .bg-vue-green{
-  background: #3fb884;
+  background: #abdd4e;
 }
 </style>
